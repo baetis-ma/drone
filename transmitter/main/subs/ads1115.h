@@ -45,26 +45,26 @@ void read_joysticks() {
        else throttle = 1500; 
 
        jmin = 0x0100; jmax = 0x3000; jcenter = 0x2000; jhyst = 0x0020; 
-       if (adc1 >= jmin && adc1 <= (jcenter-jhyst)) 
+       if (adc2 >= jmin && adc2 <= (jcenter-jhyst)) 
 	       yaw = 1000 + 500 * (adc1 - jmin) / ((jcenter-jhyst) - jmin); 
        else
-       if (adc1 <= jmax && adc1 >=(jcenter+jhyst)) 
+       if (adc2 <= jmax && adc2 >=(jcenter+jhyst)) 
 	       yaw = 1500 + 500 * (adc1 - (jcenter+jhyst)) / (jmax - (jcenter+jhyst)); 
        else yaw = 1500; 
 
        jmin = 0x0100; jmax = 0x3000; jcenter = 0x2000; jhyst = 0x0020; 
-       if (adc1 >= jmin && adc1 <= (jcenter-jhyst)) 
+       if (adc3 >= jmin && adc3 <= (jcenter-jhyst)) 
 	       pitch = 1000 + 500 * (adc1 - jmin) / ((jcenter-jhyst) - jmin); 
        else
-       if (adc1 <= jmax && adc1 >=(jcenter+jhyst)) 
+       if (adc3 <= jmax && adc3 >=(jcenter+jhyst)) 
 	       pitch = 1500 + 500 * (adc1 - (jcenter+jhyst)) / (jmax - (jcenter+jhyst)); 
        else pitch = 1500; 
 
        jmin = 0x0100; jmax = 0x3000; jcenter = 0x2000; jhyst = 0x0020; 
-       if (adc1 >= jmin && adc1 <= (jcenter-jhyst)) 
+       if (adc4 >= jmin && adc4 <= (jcenter-jhyst)) 
 	       roll = 1000 + 500 * (adc1 - jmin) / ((jcenter-jhyst) - jmin); 
        else
-       if (adc1 <= jmax && adc1 >=(jcenter+jhyst)) 
+       if (adc4 <= jmax && adc4 >=(jcenter+jhyst)) 
 	       roll = 1500 + 500 * (adc1 - (jcenter+jhyst)) / (jmax - (jcenter+jhyst)); 
        else roll = 1500; 
 

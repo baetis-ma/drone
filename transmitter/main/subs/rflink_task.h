@@ -85,8 +85,7 @@ int wait_rcv_pkt ( uint8_t *data, int timeout) {
     //set ce = 0
     gpio_set_level (NRF24L01_CE_GPIO, 0);
 
-    printf("waited %8.4fsec   ", 
-    	    (float)(esp_timer_get_time()-timestart)/1000000);
+    //printf("waited %8.4fsec   ", (float)(esp_timer_get_time()-timestart)/1000000);
     return(waitcnt);
 }
 
@@ -101,8 +100,7 @@ void rflink_task () {
 
 	int timeout = 5;  //x10ms - sending out packet - turning on rx, wait up to 50msec
         int waitlen = wait_rcv_pkt ( (uint8_t*)data, timeout); 
-	if (waitlen < timeout) //handle blackbox data
-            for(int a =0; a<32; a++) printf("0x%02x ", data[a]); printf("\n");
+	//if (waitlen < timeout) for(int a =0; a<32; a++) printf("0x%02x ", data[a]); printf("\n");
 
 	vTaskDelay(1);
 	vTaskDelayUntil(&xLoopStart, 10);
