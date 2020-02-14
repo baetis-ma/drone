@@ -18,6 +18,10 @@
 //globals
 int cnt = 0;
 int throttle = 1000; int yaw = 1500; int pitch = 1500; int roll = 1500; int mode = 7;
+int motor1 = 0, motor2 = 0, motor3 = 0, motor4 = 0; 
+int fccnt=0; 
+int height=0, heightprog=0, heading=0, headingprog=0, xdisp=0, ydisp=0;
+int theta=0, phi=0, voltage=0;
 
 //spi dependancies
 #define NRF24L01_CE_GPIO    16
@@ -38,7 +42,6 @@ void app_main(void)
     spi_initialize(); //setup transmitter radio
     uint8_t data[33] = { 'H', 'e', 'l', 'l', 'o', '\n' }; //max length nrf20l01 packet
     //nrf24_transmit_pkt ( data, 6 );
-    //for (int a = 0; a < 0x1d; a++) printf(" reg 0x%02x  data 0x%02x\n", a, spi_read_bytes ( a, data, 1));
 
     i2c_init();   //setup and detect devices on i2c interface
     i2c_detect();
@@ -55,7 +58,9 @@ void app_main(void)
 
     TickType_t xLoopStart = xTaskGetTickCount();
     while(1) {
-	sprintf (disp_str, "4 F-450 Xmit|||1 height=%3d| 0x%02x",cnt, data[1]);
+        sprintf (disp_str, "1   Altitude   Heading|4M  %3d  %03d||4P  %3d  %03d||1volt=%2d.%1dv fc= %d|theta=%2d.%1d phi=%2d.%1d",
+		height, heading,heightprog,headingprog,voltage/10,voltage%10,fccnt,
+		theta/100,abs(theta%100)/10,phi/100,abs(phi%100)/10);
         ssd1305_text(disp_str);
 	vTaskDelay(100);
     }

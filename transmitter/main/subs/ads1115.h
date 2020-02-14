@@ -34,8 +34,6 @@ void read_joysticks() {
        i2c_read (ADS1115_ADDR, 0x00, tmp_str, 2);
        adc4 = (256 * tmp_str[0] + tmp_str[1]) ;
 
-       printf(" 0x%04x  0x%04x  0x%04x  0x%04x\n", adc1, adc2, adc3, adc4);
-
        jmin = 0x0100; jmax = 0x3000; jcenter = 0x2000; jhyst = 0x0020; 
        if (adc1 >= jmin && adc1 <= (jcenter-jhyst)) 
 	       throttle = 1000 + 500 * (adc1 - jmin) / ((jcenter-jhyst) - jmin); 
@@ -68,6 +66,7 @@ void read_joysticks() {
 	       roll = 1500 + 500 * (adc1 - (jcenter+jhyst)) / (jmax - (jcenter+jhyst)); 
        else roll = 1500; 
 
+       printf(" 0x%04x  0x%04x  0x%04x  0x%04x    ", adc1, adc2, adc3, adc4);
        printf(" %4d  %4d  %4d  %4d\n", throttle, yaw, pitch, roll);
 
        vTaskDelay(50);

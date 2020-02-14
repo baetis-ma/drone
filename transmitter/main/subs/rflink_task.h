@@ -80,7 +80,9 @@ int wait_rcv_pkt ( uint8_t *data, int timeout) {
 	//vTaskDelay(1);
     }
     //if (waitcnt > timeout) printf("wait timed out\n");
-    if(waitcnt < timeout) spi_read_bytes ( 0x61, data, 32+1);
+    if(waitcnt < timeout) {
+        spi_read_bytes ( 0x61, data, 32+1);
+    }
 
     //set ce = 0
     gpio_set_level (NRF24L01_CE_GPIO, 0);
@@ -100,7 +102,24 @@ void rflink_task () {
 
 	int timeout = 5;  //x10ms - sending out packet - turning on rx, wait up to 50msec
         int waitlen = wait_rcv_pkt ( (uint8_t*)data, timeout); 
-	//if (waitlen < timeout) for(int a =0; a<32; a++) printf("0x%02x ", data[a]); printf("\n");
+	if (waitlen < timeout) for(int a =0; a<32; a++) printf("0x%02x ", data[a]); printf("\n");
+	if (waitlen < timeout){
+	    fccnt = 256 * data[0] +data[1];
+            height = data[2]-128 ;
+            heightprog = data[3]-128;
+            heading = 2*data[4];
+            headingprog = 2*data[5];
+            xdisp = data[6]-128;
+            ydisp = data[7]-128;
+            theta = (256 * data[8] + data[9]) -18000;
+            phi = (256 * data[10] + data[11]) -18000;
+	    motor1 = 256 * data[12] + data[13];
+	    motor2 = 256 * data[14] + data[15];
+	    motor3 = 256 * data[16] + data[17];
+	    motor4 = 256 * data[18] + data[19];
+            voltage= 100+data[20] ;
+	
+	}
 
 	vTaskDelay(1);
 	vTaskDelayUntil(&xLoopStart, 10);
